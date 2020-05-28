@@ -1,0 +1,8 @@
+{
+  "name": "shipping-tracker-app",
+  "version": "1.0.0",
+  "description": "postscript.io exercise",
+  "main": "index.js",
+  "author": "eugene sokolov",
+  "license": "MIT"
+}

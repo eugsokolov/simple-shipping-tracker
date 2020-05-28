@@ -17,7 +17,7 @@ RUN apt update && \
 
 # install dependencies
 RUN pip install --upgrade pip
-RUN pip install pipenv
+RUN pip install pipenv==2018.11.26  # https://github.com/pypa/pipenv/issues/4273
 COPY ./Pipfile .
 RUN export LDFLAGS="-L/usr/local/opt/openssl/lib"
 RUN pipenv install --system --skip-lock --dev --deploy

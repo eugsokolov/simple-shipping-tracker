@@ -5,7 +5,7 @@ import typing as t
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_cors import CORS
 
 def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
     """ Bootstraps a Flask application and adds dependencies to the resulting object.
@@ -29,6 +29,7 @@ def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
         Flask: The bootstrapped flask application object
     """
     app = Flask(__name__)
+    CORS(app)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = bool(
         os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS", 0)
@@ -40,8 +41,8 @@ def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
 
 
 def database_factory(app: Flask) -> SQLAlchemy:
-    """ Bootstraps SQLAlchemy for use with the Flask-SQLAlchemy extension. 
-    
+    """ Bootstraps SQLAlchemy for use with the Flask-SQLAlchemy extension.
+
     Override this method with another db factory if you'd prefer, just be
     sure to update the return typing of the `database_factory` method.
 

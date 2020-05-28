@@ -20,10 +20,10 @@ ENV PATH /opt/app/node_modules/.bin:$PATH
 # install app dependencies
 COPY --chown=postscript package.json ./
 # Swap the comment of the next 2 lines to use yarn
-# RUN yarn install --silent
-RUN npm install --silent
+RUN yarn install --silent
+# RUN npm install --silent
 # Uncommeent the next line to use yarn
-# COPY --chown=postscript yarn.lock ./
+COPY --chown=postscript yarn.lock ./
 
 # add app
 COPY --chown=postscript . ./
@@ -31,5 +31,6 @@ EXPOSE 3000
 
 # start app
 # Swap the comment of the next 2 lines to use yarn
-# CMD ["yarn", "start"]
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
+# CMD ["npm", "start"]
+
