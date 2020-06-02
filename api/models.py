@@ -60,10 +60,10 @@ class Message(db.Model):
     version = db.Column(db.String(5), nullable=False)
 
     product_id = db.Column(db.Integer, db.ForeignKey("product.pk"), nullable=False)
-    product = db.relationship("Product")
+    product = db.relationship("Product", lazy=False)
 
     template_id = db.Column(db.Integer, db.ForeignKey("template.pk"), nullable=False)
-    template = db.relationship("Template")
+    template = db.relationship("Template", lazy=False)
 
     def __init__(self, version, product_id, template_id):
         self.version = version

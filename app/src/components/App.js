@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReactModal from 'react-modal';
 
 import './App.css';
 import Products from './Products';
@@ -7,14 +8,35 @@ import Templates from './Templates';
 import Messages from './Messages';
 
 export default class App extends React.Component {
-  state = {
-    products: [],
-    selectedProductIdx: null,
-    templates: [],
-    selectedTemplateIdx: null,
-    messages: [],
-    selectedMessageIdx: null
-  };
+  constructor() {
+    super();
+    this.state = {
+      products: [],
+      selectedProductIdx: null,
+      templates: [],
+      selectedTemplateIdx: null,
+      messages: [],
+      selectedMessageIdx: null,
+      version: '1.0',
+      showModal: false
+    };
+
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleVersionChange = this.handleVersionChange.bind(this);
+  }
+
+  handleOpenModal() {
+    this.setState({ showModal: true });
+  }
+
+  handleCloseModal() {
+    this.setState({ showModal: false });
+  }
+
+  handleVersionChange(event) {
+    this.setState({ version: event.target.value });
+  }
 
   addProduct = (name, price, description) => {
     console.log('add product', name, price, description);
@@ -28,7 +50,7 @@ export default class App extends React.Component {
 
   addTemplate = (body, messageType) => {
     console.log('add template', body, messageType);
-    this.callPost('templates', { body, messageType });
+    this.callPost('templates', { body, message_type: messageType });
     this.callGet('templates');
   };
 
@@ -36,10 +58,9 @@ export default class App extends React.Component {
     this.setState({ selectedTemplateIdx: idx });
   };
 
-  addMessage = (version) => {
-    // TODO MODAL FOR VERSION
+  addMessage = () => {
     const data = {
-      version,
+      version: this.state.version,
       product_id: this.state.selectedProductIdx,
       template_id: this.state.selectedTemplateIdx
     };
@@ -58,7 +79,6 @@ export default class App extends React.Component {
   };
 
   callPost(service, data) {
-    console.log('data', data);
     axios
       .post(`http://localhost:5000/${service}`, { ...data })
       .then((res) => {
@@ -100,7 +120,7 @@ export default class App extends React.Component {
           />
         </div>
         <div className="create-message-container">
-          <button disabled={!isEnabled} onClick={this.addMessage}>
+          <button disabled={!isEnabled} onClick={this.handleOpenModal}>
             Create Message
           </button>
         </div>
@@ -112,6 +132,23 @@ export default class App extends React.Component {
             selectHandler={this.selectMessage}
           />
         </div>
+        <ReactModal
+          isOpen={this.state.showModal}
+          contentLabel="product modal add"
+        >
+          <form className="container" onSubmit={this.addMessage}>
+            <label>
+              version
+              <input
+                type="text"
+                value={this.state.version}
+                onChange={this.handleVersionChange}
+              />
+            </label>
+            <input type="submit" value="Create New Message" />
+          </form>
+          <button onClick={this.handleCloseModal}>Close Modal</button>
+        </ReactModal>
       </div>
     );
   }

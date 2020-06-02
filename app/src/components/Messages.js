@@ -7,7 +7,7 @@ export default class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: '1'
+      number: '+1'
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +39,7 @@ export default class Messages extends React.Component {
     const isEnabled =
       this.props.selectedIdx !== null &&
       this.state.number &&
-      this.state.number.length === 11;
+      10 <= this.state.number.length <= 12;
     return (
       <div className="message-container">
         <div className="container-left">
@@ -70,7 +70,7 @@ export default class Messages extends React.Component {
         <div className="container-right">
           <form className="container-right" onSubmit={this.handleSubmit}>
             <label>
-              Number:
+              Phone# :
               <input
                 type="text"
                 value={this.state.number}

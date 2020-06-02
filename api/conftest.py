@@ -6,7 +6,7 @@ from bootstrap import app_factory
 from run import db as _db
 from sqlalchemy import event
 
-TEST_DATABASE_URI = 'sqlite:///' + 'test_project.db'
+TEST_DATABASE_URI = "sqlite:///" + "test_project.db"
 
 
 @pytest.fixture(scope="session")
@@ -14,7 +14,7 @@ def app(request):
     """
     Returns session-wide application.
     """
-    os.environ['SQLALCHEMY_DATABASE_URI'] = TEST_DATABASE_URI
+    os.environ["SQLALCHEMY_DATABASE_URI"] = TEST_DATABASE_URI
     return app_factory()
 
 
@@ -44,7 +44,7 @@ def session(app, db, request):
         # (http://docs.sqlalchemy.org/en/latest/orm/session_transaction.html#using-savepoint)
         sess.begin_nested()
 
-        @event.listens_for(sess(), 'after_transaction_end')
+        @event.listens_for(sess(), "after_transaction_end")
         def restart_savepoint(sess2, trans):
             # Detecting whether this is indeed the nested transaction of the test
             if trans.nested and not trans._parent.nested:

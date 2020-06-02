@@ -46,11 +46,11 @@ def test_message(session):
         "pk": 1,
         "version": "1.0.0",
         "template_id": 1,
-        "product_id": 1
+        "product_id": 1,
     }
     assert m1.product == session.query(Product).filter_by(pk=1).first()
     assert m1.template == session.query(Template).filter_by(pk=1).first()
-    assert m1.sms_body == 'order received: Product test1 @ 1.0'
+    assert m1.sms_body == "order received: Product test1 @ 1.0"
 
 
 def test_template_type_bad():

@@ -33,11 +33,12 @@ def send_sms(number, msg):
 
     client = TwilioClient(get_cred("TWILIO_ACCOUNT_SID"), get_cred("TWILIO_AUTH_TOKEN"))
 
-    user_num = "+{}".format(number)  # Twilio's api requires a plus
+    if number[0] != "+":
+        number = "+{}".format(number)  # Twilio's api requires a plus
 
     try:
         client.messages.create(
-            to=user_num, from_=get_cred("TWILIO_FROM_NUMBER"), body=msg
+            to=number, from_=get_cred("TWILIO_FROM_NUMBER"), body=msg
         )
     except TwilioException as err:
         logger.error('Twilio Error: "{}"'.format(err))
