@@ -85,8 +85,9 @@ class Message(db.Model):
 
 if __name__ == "__main__":
     # Run this file directly to create the database tables.
-    from run import app
+    from flask import current_app as app
 
     print("Creating database tables...")
-    db.create_all(app=app)
+    with app.app_context():
+        app.db.create_all(app=app)
     print("Done!")

@@ -2,7 +2,7 @@ import logging
 
 from twilio.rest import TwilioException, Client as TwilioClient
 
-from run import db
+from flask import current_app as app
 from models import Message
 
 
@@ -51,10 +51,11 @@ def process_sms_request(form_dict):
         if i not in form_dict:
             raise ValueError("Must provide value {!r}".format(i))
 
-    message = (
-        db.session.query(Message)
-        .filter_by(pk=int(form_dict["message_id"]))
-        .first_or_404()
-    )
+    with app.app_context():
+        message = (
+            app.db.session.query(Message)
+            .filter_by(pk=int(form_dict["message_id"]))
+            .first_or_404()
+        )
     sent = send_sms(form_dict["phone"], message.sms_body)
     return {"success": sent}

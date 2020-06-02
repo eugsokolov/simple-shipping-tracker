@@ -31,7 +31,7 @@ def list_products():
         return item
     else:
         return jsonify(
-            products=[i.to_dict() for i in app.db.session.query(Product).all()]
+            products=[i.to_dict() for i in db.session.query(Product).all()]
         )
 
 
@@ -65,7 +65,7 @@ def view_message():
         return item
     else:
         return jsonify(
-            messages=[i.to_dict() for i in app.db.session.query(Message).all()]
+            messages=[i.to_dict() for i in db.session.query(Message).all()]
         )
 
 
