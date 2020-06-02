@@ -1,0 +1,18 @@
+.message-container {
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.container-left {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-right {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
