@@ -7,6 +7,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+
 def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
     """ Bootstraps a Flask application and adds dependencies to the resulting object.
 

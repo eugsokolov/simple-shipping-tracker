@@ -1,6 +1,5 @@
 import logging
 
-from flask_app.app import app
 from twilio.rest import TwilioException, Client as TwilioClient
 
 from run import db
@@ -17,7 +16,7 @@ class CredNotFound(Exception):
 def get_cred(name, default_value=None):
     # simple way to manage creds
     try:
-        from . import creds
+        import creds
     except ImportError:
         raise CredNotFound("Try making a creds.py from template_creds.py!")
 
@@ -28,14 +27,13 @@ def get_cred(name, default_value=None):
 
 
 def send_sms(number, msg):
-    if app.config.get("DEBUG"):
-        print("Would send sms to {}: {}".format(number, msg))
-        return True
+    # if app.config.get("DEBUG"):
+    #    print("Would send sms to {}: {}".format(number, msg))
+    #    return True
 
-    client = TwilioClient(get_cred("TWILIO_SID"), get_cred("TWILIO_AUTH_TOKEN"))
+    client = TwilioClient(get_cred("TWILIO_ACCOUNT_SID"), get_cred("TWILIO_AUTH_TOKEN"))
 
-    # Twilio's api requires a plus
-    user_num = "+{}".format(number)
+    user_num = "+{}".format(number)  # Twilio's api requires a plus
 
     try:
         client.messages.create(
@@ -54,7 +52,9 @@ def process_sms_request(form_dict):
             raise ValueError("Must provide value {!r}".format(i))
 
     message = (
-        db.session.query(Message).filter_by(pk=int(form_dict["message_id"])).first_or_404()
+        db.session.query(Message)
+        .filter_by(pk=int(form_dict["message_id"]))
+        .first_or_404()
     )
-    sent = send_sms(form_dict["phone"], message.body)
+    sent = send_sms(form_dict["phone"], message.sms_body)
     return {"success": sent}

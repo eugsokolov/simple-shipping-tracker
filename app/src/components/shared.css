@@ -1,0 +1,33 @@
+.display-container {
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 400px;
+}
+
+.header {
+  display: flex;
+  font-size: 28px;
+}
+
+.header-small {
+  font-size: 22px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.items {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.selected {
+  background-color: #10804f;
+}

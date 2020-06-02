@@ -72,7 +72,7 @@ class Message(db.Model):
 
     @property
     def sms_body(self):
-        return "{}: {!r}".format(self.message.body, self.product)
+        return "{}: {!r}".format(self.template.body, self.product)
 
     def to_dict(self):
         return {

@@ -2,6 +2,7 @@ import pytest
 
 from models import Product, Message, Template
 
+
 @pytest.fixture
 def p1():
     return Product("test1", 1.0, "description 1")
@@ -41,13 +42,16 @@ def t5():
 def t6():
     return Template("check your mailbox", "delivered")
 
+
 @pytest.fixture
 def m1():
     return Message("1.0.0", 1, 1)
 
+
 @pytest.fixture
 def m2():
     return Message("2.0.0", 1, 1)
+
 
 @pytest.fixture
 def m3():

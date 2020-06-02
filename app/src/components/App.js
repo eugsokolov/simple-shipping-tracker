@@ -22,13 +22,22 @@ export default class App extends React.Component {
     this.callGet('products');
   };
 
-  addTemplate = (body, message_type) => {
-    console.log('add template', body, message_type);
-    this.callPost('templates', { body, message_type });
+  selectProduct = (idx) => {
+    this.setState({ selectedProductIdx: idx });
+  };
+
+  addTemplate = (body, messageType) => {
+    console.log('add template', body, messageType);
+    this.callPost('templates', { body, messageType });
     this.callGet('templates');
   };
 
+  selectTemplate = (idx) => {
+    this.setState({ selectedTemplateIdx: idx });
+  };
+
   addMessage = (version) => {
+    // TODO MODAL FOR VERSION
     const data = {
       version,
       product_id: this.state.selectedProductIdx,
@@ -39,14 +48,19 @@ export default class App extends React.Component {
     this.callGet('messages');
   };
 
+  selectMessage = (idx) => {
+    this.setState({ selectedMessageIdx: idx });
+  };
+
   handleSendSms = (phone) => {
     console.log('send sms', phone, this.state.selectedMessageIdx);
     this.callPost('sms', { phone, message_id: this.state.selectedMessageIdx });
   };
 
   callPost(service, data) {
+    console.log('data', data);
     axios
-      .post(`http://localhost:5000/${service}`, { data })
+      .post(`http://localhost:5000/${service}`, { ...data })
       .then((res) => {
         console.log('POST response', service, res.data);
       })
@@ -75,12 +89,14 @@ export default class App extends React.Component {
           <Products
             items={this.state.products}
             selectedIdx={this.state.selectedProductIdx}
-            clickHandler={this.addProduct}
+            addHandler={this.addProduct}
+            selectHandler={this.selectProduct}
           />
           <Templates
             items={this.state.templates}
             selectedIdx={this.state.selectedTemplateIdx}
-            clickHandler={this.addTemplate}
+            addHandler={this.addTemplate}
+            selectHandler={this.selectTemplate}
           />
         </div>
         <div className="create-message-container">
@@ -93,6 +109,7 @@ export default class App extends React.Component {
             items={this.state.messages}
             selectedIdx={this.state.selectedMessageIdx}
             clickHandler={this.handleSendSms}
+            selectHandler={this.selectMessage}
           />
         </div>
       </div>

@@ -17,6 +17,7 @@ db = app.db
 # TODO implement delete and put for all below
 # TODO break out to views.py and use flask_restful.Api
 
+
 @app.route("/products", methods=["GET", "POST"])
 def list_products():
     from models import Product
@@ -72,7 +73,7 @@ def view_message():
 def sms():
     from utils import process_sms_request
 
-    return process_sms_request(request.form)
+    return process_sms_request(request.json)
 
 
 if __name__ == "__main__":
