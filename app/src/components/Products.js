@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import './shared.css';
 
 export default class Products extends React.Component {
+  /*
+    Presentation class for viewing Products
+  */
   constructor() {
     super();
     this.state = {

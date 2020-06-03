@@ -1,6 +1,6 @@
 from sqlalchemy.orm import validates
 
-from run import db
+from bootstrap import db
 
 MESSAGE_TYPES = {"received", "processing", "shipping", "delivered", "post-delivery"}
 

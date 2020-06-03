@@ -53,10 +53,8 @@ def process_sms_request(form_dict):
             raise ValueError("Must provide value {!r}".format(i))
 
     with app.app_context():
-        message = (
-            app.db.session.query(Message)
-            .filter_by(pk=int(form_dict["message_id"]))
-            .first_or_404()
-        )
+        message = Message.query.filter_by(
+            pk=int(form_dict["message_id"])
+        ).first_or_404()
     sent = send_sms(form_dict["phone"], message.sms_body)
     return {"success": sent}

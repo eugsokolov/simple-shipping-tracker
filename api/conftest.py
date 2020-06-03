@@ -3,7 +3,7 @@ import os
 
 from bootstrap import app_factory
 
-from run import db as _db
+from bootstrap import db as _db
 from sqlalchemy import event
 
 TEST_DATABASE_URI = "sqlite:///" + "test_project.db"

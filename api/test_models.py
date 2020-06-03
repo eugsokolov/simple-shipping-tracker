@@ -2,9 +2,6 @@ import pytest
 
 from models import Template, Message, Product
 
-# TODO actually finish and have tests them pass
-# https://pypi.org/project/pytest-flask-sqlalchemy/
-
 
 def test_app_creates(app):
     assert app

@@ -4,66 +4,63 @@ import os
 from bootstrap import app_factory
 from flask import request, jsonify
 
+from models import Product, Template, Message
+from utils import process_sms_request
 
 app = app_factory()
-db = app.db
 
 # TODO implement login system
-# TODO implement delete and put for all below
+# TODO implement DELETE and PUT for all below
 # TODO break out to views.py and use flask_restful.Api
 
 
-@app.route("/products", methods=["GET", "POST"])
+@app.route("/products", methods=["GET"])
 def list_products():
-    from models import Product
-
-    if request.method == "POST":
-        item = Product(
-            request.json["name"], request.json["price"], request.json["description"]
-        )
-        db.session.add(item)
-        db.session.commit()
-        return item.to_dict()
-    else:
-        return jsonify(products=[i.to_dict() for i in db.session.query(Product).all()])
+    return jsonify(products=[i.to_dict() for i in Product.query.all()])
 
 
-@app.route("/templates", methods=["GET", "POST"])
+@app.route("/products", methods=["POST"])
+def create_product():
+    item = Product(
+        request.json["name"], request.json["price"], request.json["description"]
+    )
+    app.db.session.add(item)
+    app.db.session.commit()
+    return item.to_dict()
+
+
+@app.route("/templates", methods=["GET"])
+def list_templates():
+    return jsonify(templates=[i.to_dict() for i in Template.query.all()])
+
+
+@app.route("/templates", methods=["POST"])
+def create_template():
+    item = Template(request.json["body"], request.json["message_type"])
+    app.db.session.add(item)
+    app.db.session.commit()
+    return item.to_dict()
+
+
+@app.route("/messages", methods=["GET"])
 def list_messages():
-    from models import Template
-
-    if request.method == "POST":
-        item = Template(request.json["body"], request.json["message_type"])
-        db.session.add(item)
-        db.session.commit()
-        return item.to_dict()
-    else:
-        return jsonify(
-            templates=[i.to_dict() for i in db.session.query(Template).all()]
-        )
+    return jsonify(messages=[i.to_dict() for i in Message.query.all()])
 
 
-@app.route("/messages", methods=["GET", "POST"])
-def view_message():
-    from models import Message
-
-    if request.method == "POST":
-        item = Message(
-            request.json["version"],
-            request.json["product_id"],
-            request.json["template_id"],
-        )
-        db.session.add(item)
-        db.session.commit()
-        return item.to_dict()
-    else:
-        return jsonify(messages=[i.to_dict() for i in db.session.query(Message).all()])
+@app.route("/messages", methods=["POST"])
+def create_message():
+    item = Message(
+        request.json["version"],
+        request.json["product_id"],
+        request.json["template_id"],
+    )
+    app.db.session.add(item)
+    app.db.session.commit()
+    return item.to_dict()
 
 
 @app.route("/sms", methods=["POST"])
 def sms():
-    from utils import process_sms_request
-
     return process_sms_request(request.json)
 
 

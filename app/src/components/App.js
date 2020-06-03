@@ -7,7 +7,13 @@ import Products from './Products';
 import Templates from './Templates';
 import Messages from './Messages';
 
+const SERVER_HOST = 'localhost';
+const SERVER_PORT = '5000';
+
 export default class App extends React.Component {
+  /*
+    Presentation class to view and send sms notification messages 
+  */
   constructor() {
     super();
     this.state = {
@@ -80,7 +86,7 @@ export default class App extends React.Component {
 
   callPost(service, data) {
     axios
-      .post(`http://localhost:5000/${service}`, { ...data })
+      .post(`http://${SERVER_HOST}:${SERVER_PORT}/${service}`, { ...data })
       .then((res) => {
         console.log('POST response', service, res.data);
       })
@@ -88,7 +94,7 @@ export default class App extends React.Component {
   }
 
   callGet(service) {
-    axios.get(`http://localhost:5000/${service}`).then((res) => {
+    axios.get(`http://${SERVER_HOST}:${SERVER_PORT}/${service}`).then((res) => {
       console.log('GET response', service, res.data);
       this.setState(res.data);
     });

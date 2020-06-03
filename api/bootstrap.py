@@ -7,6 +7,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+db = SQLAlchemy()
+
 
 def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
     """ Bootstraps a Flask application and adds dependencies to the resulting object.
@@ -38,6 +40,9 @@ def app_factory(config: t.Optional[t.Dict[str, t.Any]] = None) -> Flask:
     app.config["DEBUG"] = True
     app.config.update(**(config or {}))
     app.db = database_factory(app)
+    with app.app_context():
+        app.db.drop_all()
+        app.db.create_all()
     return app
 
 
@@ -53,6 +58,6 @@ def database_factory(app: Flask) -> SQLAlchemy:
     Returns:
         SQLAlchemy: The SQLAlchemy engine
     """
-    db = SQLAlchemy()
+    # db = SQLAlchemy()
     db.init_app(app)
     return db

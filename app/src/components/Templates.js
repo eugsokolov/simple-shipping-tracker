@@ -12,6 +12,9 @@ const MESSAGE_TYPES = [
 ];
 
 export default class Templates extends React.Component {
+  /*
+    Presentation class for viewing Templates 
+  */
   constructor() {
     super();
     this.state = {

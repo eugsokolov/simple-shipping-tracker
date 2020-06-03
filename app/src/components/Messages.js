@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import './Messages.css';
 import './shared.css';
 
+const MESSAGE_MIN_LEN = 10;
+const MESSAGE_MAX_LEN = 12;
+
 export default class Messages extends React.Component {
+  /*
+    Presentation class for viewing Messages 
+  */
   constructor(props) {
     super(props);
     this.state = {
-      number: '+1'
+      number: '+1'  // to help to user with international codes, a tooltip would be nice!
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +45,8 @@ export default class Messages extends React.Component {
     const isEnabled =
       this.props.selectedIdx !== null &&
       this.state.number &&
-      10 <= this.state.number.length <= 12;
+      MESSAGE_MIN_LEN <= this.state.number.length &&
+      this.state.number.length <= MESSAGE_MAX_LEN;
     return (
       <div className="message-container">
         <div className="container-left">
