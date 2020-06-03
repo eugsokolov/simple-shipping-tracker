@@ -2,6 +2,7 @@ See `assignment.md` for description of the project
 
 How to run:
 
+- `cp api/template_creds.py api/creds.py` and appropriately edit
 - `docker-compose up` :)
 - server starts on `localhost:5000`, client on `localhost:3000`
 
